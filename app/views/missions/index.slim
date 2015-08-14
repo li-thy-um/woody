@@ -1,0 +1,31 @@
+= current_user.email
+| &nbsp;&nbsp;&nbsp;
+= link_to "Sign out", destroy_user_session_path, method: :delete
+
+h1 HELL O MISSION
+
+h3
+  | 今天是
+  = Time.now.strftime('%Y年%m月%d日')
+
+= form_for current_user.missions.build do |f|
+  = f.text_area :content
+
+  br
+
+  = f.submit '干！'
+
+- User.all.each do |user|
+  h3
+    = user.email
+  - user.missions.where(created_at: (Time.now.midnight)..Time.now.midnight + 1.day).each_with_index do |m,i|
+
+    div
+      p
+        span
+          = i + 1
+          | .&nbsp;&nbsp;&nbsp;
+          = m.content
+          | &nbsp;&nbsp;&nbsp;
+        span
+          = link_to "不干了！", mission_path(m), method: :delete
