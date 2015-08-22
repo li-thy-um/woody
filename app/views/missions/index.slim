@@ -29,4 +29,4 @@ h3
             = m.content
             | &nbsp;&nbsp;&nbsp;
           span
-            = link_to "不干了！", mission_path(m), method: :delete
+            = link_to "不干了！", mission_path(m), method: :delete if m.user == current_user

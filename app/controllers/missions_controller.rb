@@ -18,7 +18,7 @@ class MissionsController < ApplicationController
     @mission.try(:destroy)
     WebsocketRails[:missions].trigger 'destroy',
       {user: current_user.email, content: content} if content
-      redirect_to root_path
+    redirect_to root_path
   end
 
   private
