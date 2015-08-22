@@ -6,7 +6,7 @@ h1 HELL O MISSION
 
 h3
   | 现在是
-  = Time.now.strftime('%Y年%m月%d日 %H时%M分%S秒')
+  = Time.now.strftime('%Y年%m月%d日')
 
 = form_for current_user.missions.build do |f|
   = f.text_area :content

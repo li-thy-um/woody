@@ -7,14 +7,17 @@ class MissionsController < ApplicationController
   def create
     @mission = current_user.missions.build(mission_params)
     @mission.save
-    WebsocketRails[:time].trigger 'tick_tock', (s=Time.now.strftime('%Y-%m-%d %H:%M:%S'))
-
-    head :no_content
-    # render template: 'missions/index'
+    WebsocketRails[:missions].trigger 'new',
+      {user: current_user.email, content: @mission.content}
+    render template: 'missions/index'
   end
 
   def destroy
-    Mission.find_by_id(params[:id]).try(:destroy)
+    @mission = Mission.find_by_id(params[:id])
+    content = @mission.try(:content)
+    @mission.try(:destroy)
+    WebsocketRails[:missions].trigger 'destroy',
+      {user: current_user.email, content: content} if content
     render template: 'missions/index'
   end
 
