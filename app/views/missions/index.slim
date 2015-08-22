@@ -5,8 +5,8 @@
 h1 HELL O MISSION
 
 h3
-  | 今天是
-  = Time.now.strftime('%Y年%m月%d日')
+  | 现在是
+  = Time.now.strftime('%Y年%m月%d日 %H时%M分%S秒')
 
 = form_for current_user.missions.build do |f|
   = f.text_area :content
@@ -16,16 +16,17 @@ h3
   = f.submit '干！'
 
 - User.all.each do |user|
-  h3
-    = user.email
-  - user.missions.where(created_at: (Time.now.midnight)..Time.now.midnight + 1.day).each_with_index do |m,i|
+  - if (missions = user.missions.where(created_at: (Time.now.midnight)..Time.now.midnight + 1.day)).present?
+    h3
+      = user.email
+    - missions.each_with_index do |m,i|
 
-    div
-      p
-        span
-          = i + 1
-          | .&nbsp;&nbsp;&nbsp;
-          = m.content
-          | &nbsp;&nbsp;&nbsp;
-        span
-          = link_to "不干了！", mission_path(m), method: :delete
+      div
+        p
+          span
+            = i + 1
+            | .&nbsp;&nbsp;&nbsp;
+            = m.content
+            | &nbsp;&nbsp;&nbsp;
+          span
+            = link_to "不干了！", mission_path(m), method: :delete
