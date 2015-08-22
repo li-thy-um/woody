@@ -9,7 +9,7 @@ class MissionsController < ApplicationController
     @mission.save
     WebsocketRails[:missions].trigger 'new',
       {user: current_user.email, content: @mission.content}
-    render template: 'missions/index'
+    redirect_to root_path
   end
 
   def destroy
@@ -18,7 +18,7 @@ class MissionsController < ApplicationController
     @mission.try(:destroy)
     WebsocketRails[:missions].trigger 'destroy',
       {user: current_user.email, content: content} if content
-    render template: 'missions/index'
+      redirect_to root_path
   end
 
   private
