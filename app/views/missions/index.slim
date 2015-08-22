@@ -1,32 +1,43 @@
-= current_user.email
-| &nbsp;&nbsp;&nbsp;
-= link_to "Sign out", destroy_user_session_path, method: :delete
+header style='margin-top:60px;'
+  nav.navbar.navbar-default.navbar-fixed-top
+    .container
+      span#logo.navbar-brand
+        | HELL-O-MISSION
 
-h1 HELL O MISSION
+      .nav.navbar-nav.navbar-right
+        li.date
+          | 今天是
+          = Time.now.strftime('%Y年%m月%d日')
+        li
+          = current_user.email
+        li
+          = link_to "退出",
+            destroy_user_session_path,
+            method: :delete, class: 'btn btn-link'
 
-h3
-  | 现在是
-  = Time.now.strftime('%Y年%m月%d日')
+.container
 
-= form_for current_user.missions.build do |f|
-  = f.text_area :content
+  .row
+    .col-md-4
+      #date_picker style='margin-top:10px'
 
-  br
+    .col-md-8
+      = form_for current_user.missions.build, html: {class: 'form-inline', style:'margin-top:10px'} do |f|
+        = f.text_field :content, class: 'form-control', style: 'width:75%;', placeholder: '干什么?'
+        = f.submit '干', class: 'btn btn-primary pull-right', style: 'width:20%;'
+        = f.hidden_field :date ,id: 'date', value: @date
 
-  = f.submit '干！'
+      ul style='margin-top:20px'
+      - User.all.each do |user|
+        li
+          h4
+            = user.email
+          ol
+            - user.missions.where(date: @date).each_with_index do |m,i|
 
-- User.all.each do |user|
-  - if (missions = user.missions.where(created_at: (Time.now.midnight)..Time.now.midnight + 1.day)).present?
-    h3
-      = user.email
-    - missions.each_with_index do |m,i|
-
-      div
-        p
-          span
-            = i + 1
-            | .&nbsp;&nbsp;&nbsp;
-            = m.content
-            | &nbsp;&nbsp;&nbsp;
-          span
-            = link_to "不干了！", mission_path(m), method: :delete if m.user == current_user
+              li style='height:30px;'
+                span
+                  = m.content
+                span.pull-right
+                  - if m.user == current_user
+                    = link_to "不干了", mission_path(m), method: :delete, class: 'btn btn-xs btn-danger'

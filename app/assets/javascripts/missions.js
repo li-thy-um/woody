@@ -11,3 +11,12 @@ channel.bind('new', function(mission){
 channel.bind('destroy', function(mission){
   alert(mission.user + ":\"不干了!\" " + mission.content)
 });
+
+$(function(){
+  $("#date_picker").calendarPicker({
+    date: new Date($('#date').val()),
+    callback:function(cal){
+      window.location = '/?date='+cal.currentDateStr();
+    }
+  });
+});

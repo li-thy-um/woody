@@ -1,0 +1,54 @@
+.calBox {
+  padding: 2px;
+  -moz-border-radius: 4px;
+  text-align: center;
+  color: black;
+}
+
+.calElement {
+  margin: 1px;
+  display: inline-block;
+  overflow:hidden;
+}
+
+.calYear {
+  font-size: 20px;
+  padding-bottom: 2px;
+  margin-bottom: 2px
+}
+
+.calYear .calElement {
+  border: 1px solid #999999;
+}
+
+.calMonth {
+  padding-bottom: 2px;
+  margin-bottom: 2px;
+}
+
+.calMonth .calElement {
+  font-size: 14px;
+  border: 1px solid #999999;
+}
+
+.calDay {
+}
+
+.calDay .calElement {
+  font-size: 12px;
+  border: 1px solid #999999;
+}
+
+.calDay .calElement .dayNumber {
+  font-size: 20px;
+}
+
+span.calElement:hover {
+  -moz-border-radius: 3px;
+  cursor: pointer;
+}
+
+.calElement.today {
+  border: 1px solid #e0e000;
+  -moz-border-radius: 3px
+}
